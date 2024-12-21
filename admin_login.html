@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - F-lendly</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    body {
+        background-image: url('assets/images/image2.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>F-lendly - Admin Login</h1>
+  </header>
+  <section class="form-section">
+    <form id="adminLoginForm" onsubmit="adminLogin(event)">
+      <label for="adminUsername">Username</label>
+      <input type="text" id="adminUsername" required>
+
+      <label for="adminPassword">Password</label>
+      <input type="password" id="adminPassword" required>
+ <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </section>
+  <footer>
+    <p>&copy; 2024 F-lendly. All rights reserved.</p>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

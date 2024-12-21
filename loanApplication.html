@@ -1,0 +1,142 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Application - F-lendly</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>F-lendly - Loan Application</h1>
+  </header>
+
+  <section class="form-section">
+    <form id="loanApplicationForm" onsubmit="submitLoanApplication(event)">
+ <label for="loanAmount">Loan Amount</label>
+      <input type="number" id="loanAmount" required>
+
+      <label for="loanPurpose">Loan Purpose</label>
+      <input type="text" id="loanPurpose" required>
+
+      <button type="submit" class="btn btn-primary">Apply for Loan</button>
+    </form>
+  </section>
+
+  <section id="loanStatusSection" style="display: none;">
+    <h2>Loan Status</h2>
+    <p id="loanStatus">Loading...</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 F-lendly. All rights reserved.</p>
+  </footer>
+
+  <script>
+const baseUrl = 'http://localhost:5000';
+
+// Handle loan application submission
+function submitLoanApplication(event) {
+  event.preventDefault();  // Prevent form from submitting normally
+
+  // Get the values from the form
+  const loanAmount = document.getElementById('loanAmount').value;
+  const loanPurpose = document.getElementById('loanPurpose').value;
+
+  // Get the logged-in user from localStorage
+ const user = JSON.parse(localStorage.getItem('user'));
+
+  if (!user) {
+    alert('Please log in to apply for a loan.');
+    return;
+  }
+
+  // Prepare the loan application data
+  const loanApplication = {
+    userId: user.id,  // Link the loan application to the logged-in user
+    loanAmount: loanAmount,
+    loanPurpose: loanPurpose,
+    status: 'Pending',  // New applications start with a "Pending" status
+  };
+
+  // Send POST request to add the loan application to the database
+  fetch(`${baseUrl}/loanApplications`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(loanApplication),
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert('Loan application submitted successfully');
+      document.getElementById('loanApplicationForm').reset();  // Reset the form
+      fetchLoanStatus();  // Fetch the status of the loan after submission
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Failed to submit the loan application.');
+    });
+}
+
+// Fetch loan status for the logged-in user
+function fetchLoanStatus() {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (!user) {
+    alert('Please log in to check your loan status.');
+    return;
+  }
+/// Fetch the loan applications for the logged-in user from the JSON server
+function fetchLoanStatus() {
+  // Get the logged-in user from localStorage
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (!user || user.type !== 'applicant') {
+    alert('You must be logged in as an applicant to view loan status.');
+    return;
+  }
+}
+
+  // Fetch loan applications for the logged-in user
+  fetch(`${baseUrl}/loanApplications?applicant=${user.username}`)
+    .then((response) => response.json())
+    .then((loanApplications) => {
+      const loanStatusSection = document.getElementById('loanStatusSection');
+      const loanStatusText = document.getElementById('loanStatus');
+
+      if (loanApplications.length > 0) {
+        const loan = loanApplications[0]; // Assuming one loan application per user for simplicity
+        loanStatusSection.style.display = 'block'; // Show the loan status section
+        loanStatusText.textContent = `Your loan application is currently: ${loan.status}`;
+      } else {
+        loanStatusSection.style.display = 'none';
+        alert('No loan applications found.');
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('Failed to fetch loan status.');
+    });
+}
+
+// Call this function when the loan status page is loaded
+document.addEventListener('DOMContentLoaded', function () {
+  fetchLoanStatus();
+});
+
+
+// Run when the page is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (user) {
+    // If the user is logged in, show their loan status
+    fetchLoanStatus();
+  } else {
+    alert('Please log in to access the loan application.');
+  }
+});
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+    "users": [
+      { "id": 1, "username": "applicant1", "password": "password1", "type": "applicant" },
+      { "id": 2, "username": "admin", "password": "admin123", "type": "admin" }
+    ],
+    "loanApplications": [
+      { "id": 1, "applicant": "applicant1", "loanAmount": 10000, "status": "Pending" }
+    ]
+  }

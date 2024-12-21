@@ -1,0 +1,39 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - F-lendly</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    body {
+        background-image: url('assets/images/image3.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>F-lendly - Applicant Registration</h1>
+  </header>
+  <section class="form-section">
+<form id="registerForm" onsubmit="register(event)">
+      <label for="newUsername">Username</label>
+      <input type="text" id="newUsername" required>
+
+      <label for="newPassword">Password</label>
+      <input type="password" id="newPassword" required>
+
+      <button type="submit" class="btn btn-primary">Register</button>
+      <p>Already have an account? <a href="login.html">Login here</a></p>
+    </form>
+  </section>
+  <footer>
+    <p>&copy; 2024 F-lendly. All rights reserved.</p>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
